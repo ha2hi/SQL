@@ -102,3 +102,23 @@ WHERE
 AND LAT_N < 137.2345
 ORDER BY LAT_N DESC
 LIMIT 1;
+
+-- weather-observation-station-7
+-- https://www.hackerrank.com/challenges/weather-observation-station-7/problem?isFullScreen=true
+SELECT DISTINCT
+    CITY
+FROM
+    STATION
+WHERE
+    1=1
+AND CITY LIKE '%a'
+OR CITY LIKE '%e'
+OR CITY LIKE '%i'
+OR CITY LIKE '%o'
+OR CITY LIKE '%u'
+
+-- weather-observation-station-8
+-- https://www.hackerrank.com/challenges/weather-observation-station-8/problem?isFullScreen=true
+SELECT DISTINCT CITY
+FROM STATION
+WHERE REGEXP_LIKE(CITY, '^[aeiouAEIOU].*[aeiouAEIOU]$');

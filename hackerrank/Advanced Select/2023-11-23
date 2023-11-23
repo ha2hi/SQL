@@ -1,0 +1,64 @@
+-- the-pads
+-- https://www.hackerrank.com/challenges/the-pads/problem?isFullScreen=true
+SELECT
+    CONCAT(NAME,'(',LEFT(OCCUPATION, 1), ')')
+FROM
+    OCCUPATIONS
+ORDER BY NAME;
+
+SELECT 
+    CONCAT('There are a total of ', count(OCCUPATION), ' ', LOWER(OCCUPATION), 's.')
+FROM
+    OCCUPATIONS
+GROUP BY OCCUPATION
+ORDER BY count(OCCUPATION), OCCUPATION;
+
+-- occupations
+-- https://www.hackerrank.com/challenges/occupations/problem?isFullScreen=true
+SELECT
+     MAX(CASE WHEN OCCUPATION = 'Doctor' THEN NAME END) as Doctor
+    ,MAX(CASE WHEN OCCUPATION = 'Professor' THEN NAME END) as Professor
+    ,MAX(CASE WHEN OCCUPATION = 'Singer' THEN NAME END) as Singer
+    ,MAX(CASE WHEN OCCUPATION = 'Actor' THEN NAME END) as Actor
+FROM
+(
+    SELECT
+    NAME,
+    OCCUPATION,
+    ROW_NUMBER() OVER(PARTITION BY OCCUPATION ORDER BY NAME) AS RN
+    FROM OCCUPATIONS
+) as TMP
+GROUP BY RN
+
+-- binary-search-tree-1
+-- https://www.hackerrank.com/challenges/binary-search-tree-1/problem?isFullScreen=true
+SELECT
+     N
+    ,CASE WHEN P is null THEN 'Root'
+          WHEN N IN (SELECT DISTINCT P FROM BST) THEN 'Inner'
+     ELSE 'Leaf' END
+FROM
+    BST
+ORDER BY N;
+
+-- the-company
+-- https://www.hackerrank.com/challenges/the-company/problem?isFullScreen=true
+SELECT
+     T1.COMPANY_CODE
+    ,T1.FOUNDER
+    ,COUNT(DISTINCT T2.LEAD_MANAGER_CODE)
+    ,COUNT(DISTINCT T3.SENIOR_MANAGER_CODE)
+    ,COUNT(DISTINCT T4.MANAGER_CODE)
+    ,COUNT(DISTINCT T5.EMPLOYEE_CODE)
+FROM
+    COMPANY T1
+INNER JOIN LEAD_MANAGER T2
+ ON T1.COMPANY_CODE = T2.COMPANY_CODE
+INNER JOIN SENIOR_MANAGER T3
+ ON T1.COMPANY_CODE = T3.COMPANY_CODE
+INNER JOIN MANAGER T4
+ ON T1.COMPANY_CODE = T4.COMPANY_CODE
+INNER JOIN EMPLOYEE T5
+ ON T1.COMPANY_CODE = T5.COMPANY_CODE
+GROUP BY T1.COMPANY_CODE, T1.FOUNDER
+ORDER BY T1.COMPANY_CODE;
